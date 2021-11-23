@@ -6,6 +6,7 @@ import Contact from "./ContactComponent";
 import CampsiteInfo from './CampsiteInfoComponent';
 import Constants from 'expo-constants';
 import Reservation from './ReservationComponent';
+import Favorites from './FavoritesComponent';
 import { View, Platform, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
@@ -13,8 +14,10 @@ import { createAppContainer } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
-import { fetchCampsites, fetchComments, fetchPromotions,
-    fetchPartners } from '../redux/ActionCreators';
+import {
+    fetchCampsites, fetchComments, fetchPromotions,
+    fetchPartners
+} from '../redux/ActionCreators';
 
 const mapDispatchToProps = {
     fetchCampsites,
@@ -126,7 +129,7 @@ const ReservationNavigator = createStackNavigator(
         Reservation: { screen: Reservation }
     },
     {
-        defaultNavigationOptions: ({navigation}) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerStyle: {
                 backgroundColor: '#5637DD'
             },
@@ -136,6 +139,29 @@ const ReservationNavigator = createStackNavigator(
             },
             headerLeft: <Icon
                 name='tree'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
+    }
+);
+
+const FavoritesNavigator = createStackNavigator(
+    {
+        Favorites: { screen: Favorites }
+    },
+    {
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='heart'
                 type='font-awesome'
                 iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
@@ -194,9 +220,23 @@ const MainNavigator = createDrawerNavigator(
             screen: ReservationNavigator,
             navigationOptions: {
                 drawerLabel: 'Reserve Campsite',
-                drawerIcon: ({tintColor}) => (
+                drawerIcon: ({ tintColor }) => (
                     <Icon
                         name='tree'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+        Favorites: {
+            screen: FavoritesNavigator,
+            navigationOptions: {
+                drawerLabel: 'My Favorites',
+                drawerIcon: ({ tintColor }) => (
+                    <Icon
+                        name='heart'
                         type='font-awesome'
                         size={24}
                         color={tintColor}
@@ -218,7 +258,7 @@ const MainNavigator = createDrawerNavigator(
                 )
             }
         },
-        
+
         Contact: {
             screen: ContactNavigator,
             navigationOptions: {
