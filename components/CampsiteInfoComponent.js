@@ -86,7 +86,7 @@ function RenderCampsite(props) {
                     <Text style={{ margin: 10 }}>
                         {campsite.description}
                     </Text>
-                    <View style={StyleSheet.cardRow}>
+                    <View style={style.cardRow}>
                         <Icon
                             name={props.favorite ? 'heart' : 'heart-o'}
                             type='font-awesome'
